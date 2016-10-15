@@ -1,197 +1,410 @@
-<title>Login</title>
-<!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">-->
-<!--<link href="/var/www/disease_surveillance_dashboard/app/assets/stylesheets/bootstrap.css" rel="stylesheet">-->
 <%= javascript_include_tag("jquery-2.0.3.min") %>
 <%= javascript_include_tag("bootstrap.min") %>
 <%= stylesheet_link_tag("bootstrap")%>
-<link rel="stylesheet" href="/assets/plugins/social-buttons/social-buttons.css" />
-
-<div id="login-overlay" class="modal-dialog login-modal-content">
-  <div class="modal-content">
-    <div class="modal-header">
-
-      <h4 class="modal-title" id="myModalLabel"><b>ProBooks</b></h4>
-    </div>
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-xs-6">
-          <div class="well">
-            <form id="loginForm" method="POST" action="/authenticate" novalidate="novalidate">
-              <div class="form-group">
-                <label for="username" class="control-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" value="" required="" title="Please enter you username" placeholder="example@gmail.com"/>
-                <span class="help-block"></span>
-              </div>
-              <div class="form-group">
-                <label for="password" class="control-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" value="" required="" title="Please enter your password"/>
-                <span class="help-block"></span>
-              </div>
-              <% if flash[:error] %>
-                <div id="loginErrorMsg" class="alert alert-error" style="color: #d9534f; font-weight: bold;"><%= flash[:error] %></div>
-              <% end %>
-
-              <% if flash[:notice] %>
-                <p style="color: green; font-weight: bold;"><%= flash[:notice] %></p>
-              <% end %>
-
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="remember" id="remember"/> Remember login
-                </label>
-                <p class="help-block">(if this is a private computer)</p>
-              </div>
-              <button type="submit" class="btn btn-success btn-block">Login</button>
-              <a href="#" onclick="showPasswordReminderForm();" class="btn btn-default btn-block">Help to login</a>
-            </form>
-          </div>
-        </div>
-        <div class="col-xs-6">
-          <p class="lead">Register now for <span class="text-success">FREE</span></p>
-          <ul class="list-unstyled" style="line-height: 2">
-            <li><span class="fa fa-check text-success"></span> Free Account</li>
-            <li><span class="fa fa-check text-success"></span> Save your Bookshelf</li>
-            <li><span class="fa fa-check text-success"></span> Easy to use</li>
-            <li><span class="fa fa-check text-success"></span> Reliable</li>
-            <li><span class="fa fa-check text-success"></span> Download Books <small>(only premium customers)</small></li>
-            <li><a href="/read-more/"><u>Read more</u></a></li>
-          </ul>
-          <p><a href="#" onclick="showRegistrationForm();" class="btn btn-info btn-block">Yes please, register now!</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="col-lg-12">
-  <div class="modal fade" id="newReg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="H4"> <b>Create Account</b></h4>
-        </div>
-        <form action="/users/create" role="form" class="form-horizontal" method="POST">
-          <div class="modal-body">
-
-            <div class="form-group">
-              <label class="control-label col-lg-4" for="first_name">First Name</label>
-              <div class="col-lg-7">
-                <input type="text" name="first_name" class="form-control" placeholder="First Name" id="first_name" required/>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-lg-4" for="last_name">Last Name</label>
-              <div class="col-lg-7">
-                <input type="text" name="last_name" class="form-control" placeholder="Last Name" id="last_name" required/>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-lg-4" for="phone_number">Phone #</label>
-              <div class="col-lg-7">
-                <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" id="phone_number" required/>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-lg-4" for="email">E-mail</label>
-              <div class="col-lg-7">
-                <input type="email" name="email" class="form-control" placeholder="E-mail" id="email" required/>
-              </div>
-            </div>
-
-
-            <div class="form-group">
-              <label class="control-label col-lg-4" for="username">Username</label>
-              <div class="col-lg-7">
-                <input type="username" name="username" class="form-control" placeholder="Username" id="username" required/>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-lg-4" for="password">Password</label>
-              <div class="col-lg-7">
-                <input type="password" name="password" class="form-control" placeholder="Password" id="password" required/>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-lg-4" for="confirm_password">Confirm Password</label>
-              <div class="col-lg-7">
-                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="confirm_password" required/>
-              </div>
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <input class="btn btn-primary " type="submit" value="Create Account"></input>
-          </div>
-        </form>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<!-- PASSSWORD REMINDER -->
-<div class="col-lg-12">
-  <div class="modal fade" id="passwordReminder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="H4"> <b>Password Reminder</b></h4>
-        </div>
-        <form role="form" action="/users/reset_password" class="form-horizontal" method="POST">
-          <div class="modal-body">
-
-            <div class="form-group">
-              <label class="control-label col-lg-4" for="email">E-mail Address</label>
-              <div class="col-lg-7">
-                <input type="email" name="email" class="form-control" placeholder="E-mail" id="email" required/>
-              </div>
-            </div>
-
-
-          </div>
-
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-danger btn-block btn-lg">Reset Password</button>
-          </div>
-
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<style type="text/css">
-  .login-modal-content {
-    left: 50%;
-    padding-bottom: 30px;
-    padding-top: 150px;
-    right: auto;
-    width: 1010px;
+<style>
+  .btn-circle.btn-lg {
+    border-radius: 25px;
+    font-size: 18px;
+    height: 50px;
+    line-height: 1.33;
+    padding: 10px 16px;
+    width: 50px;
   }
-
-  body{
-    background-color: #ddd;
+  .btn-circle.btn-lg {
+    height: 60px;
+    padding: 14px 16px;
+     border-radius: 50%;
+  }
+  .btn-circle {
+    border-radius: 15px;
+    font-size: 12px;
+    height: 30px;
+    line-height: 1.42857;
+    padding: 6px 0;
+    text-align: center;
+    width: 30px;
+  }
+  .btn-circle {
+    border-radius: 500px;
+    height: 40px;
+    padding: 8px 10px;
+    width: 124px !important;
+  }
+  .btn-lg {
+    border-radius: 6px;
+    font-size: 18px;
+    line-height: 1.33;
+    margin: 5px;
+    padding: 10px 16px;
+  }
+  .btn-default {
+    background-color: #ffffff;
+    border-color: #cccccc;
+    color: #333333;
+  }
+  .btn {
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
   }
 </style>
+<!-- BEGIN # MODAL LOGIN -->
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" align="center">
+        <a class="btn btn-primary btn-lg btn-circle" href="#">DisposeMe</a>
+        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>-->
+      </div>
 
-<script type="text/javascript">
+      <!-- Begin # DIV Form -->
+      <div id="div-forms">
 
-  function showRegistrationForm(){
-    jQuery('#newReg').modal('show');
+        <!-- Begin # Login Form -->
+        <form id="login-form">
+          <div class="modal-body">
+            <div id="div-login-msg">
+              <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
+              <span id="text-login-msg">Type your username and password.</span>
+            </div>
+            <input id="login_username" class="form-control" type="text" placeholder="Username" required/>
+            <input id="login_password" class="form-control" type="password" placeholder="Password" required/>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> Remember me
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div>
+              <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+            </div>
+            <div>
+              <button id="login_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
+              <!--<button id="login_register_btn" type="button" class="btn btn-link">Register</button>-->
+            </div>
+          </div>
+        </form>
+        <!-- End # Login Form -->
+
+        <!-- Begin | Lost Password Form -->
+        <form id="lost-form" style="display:none;">
+          <div class="modal-body">
+            <div id="div-lost-msg">
+              <div id="icon-lost-msg" class="glyphicon glyphicon-chevron-right"></div>
+              <span id="text-lost-msg">Type your e-mail.</span>
+            </div>
+            <input id="lost_email" class="form-control" type="text" placeholder="E-Mail (type ERROR for error effect)" required>
+          </div>
+          <div class="modal-footer">
+            <div>
+              <button type="submit" class="btn btn-primary btn-lg btn-block">Send</button>
+            </div>
+            <div>
+              <button id="lost_login_btn" type="button" class="btn btn-link">Log In</button>
+              <!--<button id="lost_register_btn" type="button" class="btn btn-link">Register</button>-->
+            </div>
+          </div>
+        </form>
+        <!-- End | Lost Password Form -->
+
+        <!-- Begin | Register Form -->
+        <form id="register-form" style="display:none;">
+          <div class="modal-body">
+            <div id="div-register-msg">
+              <div id="icon-register-msg" class="glyphicon glyphicon-chevron-right"></div>
+              <span id="text-register-msg">Register an account.</span>
+            </div>
+            <input id="register_username" class="form-control" type="text" placeholder="Username (type ERROR for error effect)" required>
+            <input id="register_email" class="form-control" type="text" placeholder="E-Mail" required>
+            <input id="register_password" class="form-control" type="password" placeholder="Password" required>
+          </div>
+          <div class="modal-footer">
+            <div>
+              <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
+            </div>
+            <div>
+              <button id="register_login_btn" type="button" class="btn btn-link">Log In</button>
+              <button id="register_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
+            </div>
+          </div>
+        </form>
+        <!-- End | Register Form -->
+
+      </div>
+      <!-- End # DIV Form -->
+
+    </div>
+  </div>
+</div>
+<!-- END # MODAL LOGIN -->
+
+
+
+<style type="text/css">
+  /* #####################################################################
+   #
+   #   Project       : Modal Login with jQuery Effects
+   #   Author        : Rodrigo Amarante (rodrigockamarante)
+   #   Version       : 1.0
+   #   Created       : 07/28/2015
+   #   Last Change   : 08/02/2015
+   #
+   ##################################################################### */
+
+  @import url(http://fonts.googleapis.com/css?family=Roboto);
+
+  * {
+    font-family: 'Roboto', sans-serif;
   }
 
-  function showPasswordReminderForm(){
-    jQuery('#passwordReminder').modal('show');
+  #login-modal .modal-dialog {
+    width: 350px;
   }
 
+  #login-modal input[type=text], input[type=password] {
+    margin-top: 10px;
+  }
+
+  #div-login-msg,
+  #div-lost-msg,
+  #div-register-msg {
+    border: 1px solid #dadfe1;
+    height: 30px;
+    line-height: 28px;
+    transition: all ease-in-out 500ms;
+  }
+
+  #div-login-msg.success,
+  #div-lost-msg.success,
+  #div-register-msg.success {
+    border: 1px solid #68c3a3;
+    background-color: #c8f7c5;
+  }
+
+  #div-login-msg.error,
+  #div-lost-msg.error,
+  #div-register-msg.error {
+    border: 1px solid #eb575b;
+    background-color: #ffcad1;
+  }
+
+  #icon-login-msg,
+  #icon-lost-msg,
+  #icon-register-msg {
+    width: 30px;
+    float: left;
+    line-height: 28px;
+    text-align: center;
+    background-color: #dadfe1;
+    margin-right: 5px;
+    transition: all ease-in-out 500ms;
+  }
+
+  #icon-login-msg.success,
+  #icon-lost-msg.success,
+  #icon-register-msg.success {
+    background-color: #68c3a3 !important;
+  }
+
+  #icon-login-msg.error,
+  #icon-lost-msg.error,
+  #icon-register-msg.error {
+    background-color: #eb575b !important;
+  }
+
+  #img_logo {
+    max-height: 100px;
+    max-width: 100px;
+  }
+
+  /* #########################################
+     #    override the bootstrap configs     #
+     ######################################### */
+
+  .modal-backdrop.in {
+    filter: alpha(opacity=50);
+    opacity: .8;
+  }
+
+  .modal-content {
+    background-color: #ececec;
+    border: 1px solid #bdc3c7;
+    border-radius: 0px;
+    outline: 0;
+  }
+
+  .modal-header {
+    min-height: 16.43px;
+    padding: 15px 15px 15px 15px;
+    border-bottom: 0px;
+  }
+
+  .modal-body {
+    position: relative;
+    padding: 5px 15px 5px 15px;
+  }
+
+  .modal-footer {
+    padding: 15px 15px 15px 15px;
+    text-align: left;
+    border-top: 0px;
+  }
+
+  .checkbox {
+    margin-bottom: 0px;
+  }
+
+  .btn {
+    border-radius: 0px;
+  }
+
+  .btn:focus,
+  .btn:active:focus,
+  .btn.active:focus,
+  .btn.focus,
+  .btn:active.focus,
+  .btn.active.focus {
+    outline: none;
+  }
+
+  .btn-lg, .btn-group-lg>.btn {
+    border-radius: 0px;
+  }
+
+  .btn-link {
+    padding: 5px 10px 0px 0px;
+    color: #95a5a6;
+  }
+
+  .btn-link:hover, .btn-link:focus {
+    color: #2c3e50;
+    text-decoration: none;
+  }
+
+  .glyphicon {
+    top: 0px;
+  }
+
+  .form-control {
+    border-radius: 0px;
+  }
+
+</style>
+
+<script>
+  /* #####################################################################
+   #
+   #   Project       : Modal Login with jQuery Effects
+   #   Author        : Rodrigo Amarante (rodrigockamarante)
+   #   Version       : 1.0
+   #   Created       : 07/29/2015
+   #   Last Change   : 08/04/2015
+   #
+   ##################################################################### */
+
+  $(function() {
+
+    var $formLogin = $('#login-form');
+    var $formLost = $('#lost-form');
+    var $formRegister = $('#register-form');
+    var $divForms = $('#div-forms');
+    var $modalAnimateTime = 300;
+    var $msgAnimateTime = 150;
+    var $msgShowTime = 2000;
+
+    $("form").submit(function () {
+      switch(this.id) {
+        case "login-form":
+          var $lg_username=$('#login_username').val();
+          var $lg_password=$('#login_password').val();
+          if ($lg_username == "ERROR") {
+            msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Login error");
+          } else {
+            msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
+          }
+          return false;
+          break;
+        case "lost-form":
+          var $ls_email=$('#lost_email').val();
+          if ($ls_email == "ERROR") {
+            msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "error", "glyphicon-remove", "Send error");
+          } else {
+            msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "success", "glyphicon-ok", "Send OK");
+          }
+          return false;
+          break;
+        case "register-form":
+          var $rg_username=$('#register_username').val();
+          var $rg_email=$('#register_email').val();
+          var $rg_password=$('#register_password').val();
+          if ($rg_username == "ERROR") {
+            msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "error", "glyphicon-remove", "Register error");
+          } else {
+            msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Register OK");
+          }
+          return false;
+          break;
+        default:
+          return false;
+      }
+      return false;
+    });
+
+    $('#login_register_btn').click( function () { modalAnimate($formLogin, $formRegister) });
+    $('#register_login_btn').click( function () { modalAnimate($formRegister, $formLogin); });
+    $('#login_lost_btn').click( function () { modalAnimate($formLogin, $formLost); });
+    $('#lost_login_btn').click( function () { modalAnimate($formLost, $formLogin); });
+    $('#lost_register_btn').click( function () { modalAnimate($formLost, $formRegister); });
+    $('#register_lost_btn').click( function () { modalAnimate($formRegister, $formLost); });
+
+    function modalAnimate ($oldForm, $newForm) {
+      var $oldH = $oldForm.height();
+      var $newH = $newForm.height();
+      $divForms.css("height",$oldH);
+      $oldForm.fadeToggle($modalAnimateTime, function(){
+        $divForms.animate({height: $newH}, $modalAnimateTime, function(){
+          $newForm.fadeToggle($modalAnimateTime);
+        });
+      });
+    }
+
+    function msgFade ($msgId, $msgText) {
+      $msgId.fadeOut($msgAnimateTime, function() {
+        $(this).text($msgText).fadeIn($msgAnimateTime);
+      });
+    }
+
+    function msgChange($divTag, $iconTag, $textTag, $divClass, $iconClass, $msgText) {
+      var $msgOld = $divTag.text();
+      msgFade($textTag, $msgText);
+      $divTag.addClass($divClass);
+      $iconTag.removeClass("glyphicon-chevron-right");
+      $iconTag.addClass($iconClass + " " + $divClass);
+      setTimeout(function() {
+        msgFade($textTag, $msgOld);
+        $divTag.removeClass($divClass);
+        $iconTag.addClass("glyphicon-chevron-right");
+        $iconTag.removeClass($iconClass + " " + $divClass);
+      }, $msgShowTime);
+    }
+  });
+
+
+  $(window).load(function(){
+    $('#login-modal').modal('show');
+  });
 </script>

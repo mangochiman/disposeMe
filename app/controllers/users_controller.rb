@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+   skip_before_filter :authenticate_user, :only => [:login, :authenticate, :create, :reset_password]
   def login
 
   end
