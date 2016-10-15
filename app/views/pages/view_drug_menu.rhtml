@@ -98,7 +98,10 @@
             Available Drugs | <span class="badge btn btn-lg bg-green"><b><%= @drugs.count %></b></span>
             <small></small>
           </h1>
-
+          <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+          </ol>
           <% colors = ["info", "warning", "success", "danger"]
             colors_original = ["info", "warning", "success", "danger"]
           %>
