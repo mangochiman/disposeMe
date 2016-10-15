@@ -4,6 +4,7 @@ class CreateDrugs < ActiveRecord::Migration
       t.string :name
       t.string :batch_no
       t.date :expiry_date
+      t.string :description
       t.timestamps
     end
   end
