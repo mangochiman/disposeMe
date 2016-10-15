@@ -1,7 +1,7 @@
 development:
   adapter: mysql
   username: user
-  database: probooks
+  database: dispose_me
   password: password
   host: localhost
   pool: 500
@@ -9,7 +9,7 @@ development:
 production:
   adapter: mysql
   username: user
-  database: probooks
+  database: dispose_me
   password: password
   host: localhost
   pool: 500
@@ -17,7 +17,7 @@ production:
 test:
   adapter: mysql
   username: user
-  database: probooks
+  database: dispose_me
   password: password
   host: localhost
   pool: 500
