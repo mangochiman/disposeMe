@@ -1,0 +1,197 @@
+<title>Login</title>
+<!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">-->
+<!--<link href="/var/www/disease_surveillance_dashboard/app/assets/stylesheets/bootstrap.css" rel="stylesheet">-->
+<%= javascript_include_tag("jquery-2.0.3.min") %>
+<%= javascript_include_tag("bootstrap.min") %>
+<%= stylesheet_link_tag("bootstrap")%>
+<link rel="stylesheet" href="/assets/plugins/social-buttons/social-buttons.css" />
+
+<div id="login-overlay" class="modal-dialog login-modal-content">
+  <div class="modal-content">
+    <div class="modal-header">
+
+      <h4 class="modal-title" id="myModalLabel"><b>ProBooks</b></h4>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="well">
+            <form id="loginForm" method="POST" action="/authenticate" novalidate="novalidate">
+              <div class="form-group">
+                <label for="username" class="control-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" value="" required="" title="Please enter you username" placeholder="example@gmail.com"/>
+                <span class="help-block"></span>
+              </div>
+              <div class="form-group">
+                <label for="password" class="control-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" value="" required="" title="Please enter your password"/>
+                <span class="help-block"></span>
+              </div>
+              <% if flash[:error] %>
+                <div id="loginErrorMsg" class="alert alert-error" style="color: #d9534f; font-weight: bold;"><%= flash[:error] %></div>
+              <% end %>
+
+              <% if flash[:notice] %>
+                <p style="color: green; font-weight: bold;"><%= flash[:notice] %></p>
+              <% end %>
+
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="remember" id="remember"/> Remember login
+                </label>
+                <p class="help-block">(if this is a private computer)</p>
+              </div>
+              <button type="submit" class="btn btn-success btn-block">Login</button>
+              <a href="#" onclick="showPasswordReminderForm();" class="btn btn-default btn-block">Help to login</a>
+            </form>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <p class="lead">Register now for <span class="text-success">FREE</span></p>
+          <ul class="list-unstyled" style="line-height: 2">
+            <li><span class="fa fa-check text-success"></span> Free Account</li>
+            <li><span class="fa fa-check text-success"></span> Save your Bookshelf</li>
+            <li><span class="fa fa-check text-success"></span> Easy to use</li>
+            <li><span class="fa fa-check text-success"></span> Reliable</li>
+            <li><span class="fa fa-check text-success"></span> Download Books <small>(only premium customers)</small></li>
+            <li><a href="/read-more/"><u>Read more</u></a></li>
+          </ul>
+          <p><a href="#" onclick="showRegistrationForm();" class="btn btn-info btn-block">Yes please, register now!</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-lg-12">
+  <div class="modal fade" id="newReg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="H4"> <b>Create Account</b></h4>
+        </div>
+        <form action="/users/create" role="form" class="form-horizontal" method="POST">
+          <div class="modal-body">
+
+            <div class="form-group">
+              <label class="control-label col-lg-4" for="first_name">First Name</label>
+              <div class="col-lg-7">
+                <input type="text" name="first_name" class="form-control" placeholder="First Name" id="first_name" required/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-lg-4" for="last_name">Last Name</label>
+              <div class="col-lg-7">
+                <input type="text" name="last_name" class="form-control" placeholder="Last Name" id="last_name" required/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-lg-4" for="phone_number">Phone #</label>
+              <div class="col-lg-7">
+                <input type="text" name="phone_number" class="form-control" placeholder="Phone Number" id="phone_number" required/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-lg-4" for="email">E-mail</label>
+              <div class="col-lg-7">
+                <input type="email" name="email" class="form-control" placeholder="E-mail" id="email" required/>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="control-label col-lg-4" for="username">Username</label>
+              <div class="col-lg-7">
+                <input type="username" name="username" class="form-control" placeholder="Username" id="username" required/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-lg-4" for="password">Password</label>
+              <div class="col-lg-7">
+                <input type="password" name="password" class="form-control" placeholder="Password" id="password" required/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-lg-4" for="confirm_password">Confirm Password</label>
+              <div class="col-lg-7">
+                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" id="confirm_password" required/>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary " type="submit" value="Create Account"></input>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- PASSSWORD REMINDER -->
+<div class="col-lg-12">
+  <div class="modal fade" id="passwordReminder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="H4"> <b>Password Reminder</b></h4>
+        </div>
+        <form role="form" action="/users/reset_password" class="form-horizontal" method="POST">
+          <div class="modal-body">
+
+            <div class="form-group">
+              <label class="control-label col-lg-4" for="email">E-mail Address</label>
+              <div class="col-lg-7">
+                <input type="email" name="email" class="form-control" placeholder="E-mail" id="email" required/>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger btn-block btn-lg">Reset Password</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  .login-modal-content {
+    left: 50%;
+    padding-bottom: 30px;
+    padding-top: 150px;
+    right: auto;
+    width: 1010px;
+  }
+
+  body{
+    background-color: #ddd;
+  }
+</style>
+
+<script type="text/javascript">
+
+  function showRegistrationForm(){
+    jQuery('#newReg').modal('show');
+  }
+
+  function showPasswordReminderForm(){
+    jQuery('#passwordReminder').modal('show');
+  }
+
+</script>

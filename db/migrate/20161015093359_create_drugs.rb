@@ -1,7 +1,9 @@
 class CreateDrugs < ActiveRecord::Migration
   def self.up
-    create_table :drugs do |t|
-
+    create_table :drugs, :primary_key => :drug_id do |t|
+      t.string :name
+      t.string :batch_no
+      t.date :expiry_date
       t.timestamps
     end
   end
