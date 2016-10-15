@@ -95,8 +95,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Dashboard
-            <small>Control panel</small>
+            Notifications |
+            <small> Expiring Drugs</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -107,72 +107,29 @@
         <!-- Main content -->
         <section class="content">
           <!-- Small boxes (Stat box) -->
-          <div class="row">
-
-            <div class="col-md-3 col-sm-6 col-xs-12">
-              <div class="info-box bg-yellow">
-                <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text"><b>Paracetamol</b></span>
-                  <span class="info-box-number">15/Dec/2016</span>
-                  <div class="progress">
-                    <div style="width: 70%" class="progress-bar"></div>
-                  </div>
-                  <span class="progress-description">
-                    10 days before expiry date
-                  </span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
+          <% @drugs.in_groups_of(4).each do |group| %>
+            <div class="row">
+              <%  group.compact.each do |drug| %>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                  <div class="info-box bg-yellow">
+                    <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text"><b><%= drug.name %></b></span>
+                      <span class="info-box-number"><%= drug.expiry_date %></span>
+                      <div class="progress">
+                        <div style="width: 70%" class="progress-bar"></div>
+                      </div>
+                      <span class="progress-description">
+                        10 days before expiry date
+                      </span>
+                    </div><!-- /.info-box-content -->
+                  </div><!-- /.info-box -->
+                </div>
+              <% end %>
             </div>
+          <% end %>
 
-            <div class="col-md-3 col-sm-6 col-xs-12">
-              <div class="info-box bg-green">
-                <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text"><b>Quinine</b></span>
-                  <span class="info-box-number">15/Dec/2016</span>
-                  <div class="progress">
-                    <div style="width: 20%" class="progress-bar"></div>
-                  </div>
-                  <span class="progress-description">
-                    28 days before expiry date
-                  </span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
-            </div>
-
-            <div class="col-md-3 col-sm-6 col-xs-12">
-              <div class="info-box bg-red">
-                <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text"><b>Aspirin</b></span>
-                  <span class="info-box-number">15/Dec/2016</span>
-                  <div class="progress">
-                    <div style="width: 90%" class="progress-bar"></div>
-                  </div>
-                  <span class="progress-description">
-                    10 days before expiry date
-                  </span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
-            </div>
-
-            <div class="col-md-3 col-sm-6 col-xs-12">
-              <div class="info-box bg-green">
-                <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-text"><b>Brufen</b></span>
-                  <span class="info-box-number">15/Dec/2016</span>
-                  <div class="progress">
-                    <div style="width: 10%" class="progress-bar"></div>
-                  </div>
-                  <span class="progress-description">
-                    50 days before expiry date
-                  </span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
-            </div>
-          </div>
+          
           <!-- /.row -->
           <!-- Main row -->
 

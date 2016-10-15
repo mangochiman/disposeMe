@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def home
-    
+    @drugs = Drug.all
   end
 
   def view_drug_menu
