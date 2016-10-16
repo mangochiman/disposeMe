@@ -1,0 +1,136 @@
+<div class="row">
+  <div class="col-md-3">
+    &nbsp;
+  </div>
+  <div class="col-md-6">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">New E-mails</h3>
+      </div>
+      <!-- /.box-header -->
+      <!-- form start -->
+      <form role="form" action="/admin/create_new_emails" method="POST">
+        <div class="col-md-12 text-center">
+          <div class="contacts">
+            <div class="form-group multiple-form-group input-group">
+              <div class="input-group-btn input-group-select">
+                <button type="button" class="btn btn-default" data-toggle="dropdown">
+                  <span class="concept">E-mail</span>
+                </button>
+
+                <input type="hidden" class="input-group-select-val" name="contacts['type'][]" value="phone"/>
+              </div>
+              <input type="text" name="contacts[value][]" class="form-control"/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-success btn-add">+</button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="box-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-3">
+    &nbsp;
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-3">
+    &nbsp;
+  </div>
+  <div class="col-md-6">
+    <div class="box box-warning">
+      <div class="box-header with-border">
+        <h3 class="box-title">AVAILABLE EMAILS (<%=  @available_emails.count %>)</h3>
+      </div><!-- /.box-header -->
+      <% @available_emails.each do |record| %>
+        <div class="box-body">
+          <%= record.value %>
+          <button onclick="deleteEmail(<%= record.settings_id %>)" class="btn btn-danger pull-right" type="button">Delete</button>
+        </div><!-- /.box-body -->
+      <% end %>
+    </div><!-- /.box -->
+  </div>
+
+  <div class="col-md-3">
+    &nbsp;
+  </div>
+</div>
+<script type="text/javascript">
+  function deleteEmail(settingsID){
+    window.location = "/admin/delete_email?settings_id=" + settingsID;
+  }
+
+  window.onload = function(){
+    changeEmailInput();
+  }
+
+  function changeEmailInput(){
+    (function ($) {
+      $(function () {
+
+        var addFormGroup = function (event) {
+          //event.preventDefault();
+
+          var $formGroup = $(this).closest('.multiple-form-group');
+          var $multipleFormGroup = $formGroup.closest('.multiple-form-group');
+          var $formGroupClone = $formGroup.clone();
+
+          $(this)
+          .toggleClass('btn-success btn-add btn-danger btn-remove')
+          .html('–');
+
+          $formGroupClone.find('input').val('');
+          $formGroupClone.find('.concept').text('Email');
+          $formGroupClone.insertAfter($formGroup);
+
+          var $lastFormGroupLast = $multipleFormGroup.find('.multiple-form-group:last');
+          if ($multipleFormGroup.data('max') <= countFormGroup($multipleFormGroup)) {
+            $lastFormGroupLast.find('.btn-add').attr('disabled', true);
+          }
+        };
+
+        var removeFormGroup = function (event) {
+          //event.preventDefault();
+
+          var $formGroup = $(this).closest('.multiple-form-group');
+          var $multipleFormGroup = $formGroup.closest('.multiple-form-group');
+
+          var $lastFormGroupLast = $multipleFormGroup.find('.multiple-form-group:last');
+          if ($multipleFormGroup.data('max') >= countFormGroup($multipleFormGroup)) {
+            $lastFormGroupLast.find('.btn-add').attr('disabled', false);
+          }
+
+          $formGroup.remove();
+        };
+
+        var selectFormGroup = function (event) {
+          //event.preventDefault();
+
+          var $selectGroup = $(this).closest('.input-group-select');
+          var param = $(this).attr("href").replace("#","");
+          var concept = $(this).text();
+
+          $selectGroup.find('.concept').text(concept);
+          $selectGroup.find('.input-group-select-val').val(param);
+
+        }
+
+        var countFormGroup = function ($form) {
+          return $form.find('.multiple-form-group').length;
+        };
+
+        $(document).on('click', '.btn-add', addFormGroup);
+        $(document).on('click', '.btn-remove', removeFormGroup);
+        $(document).on('click', '.dropdown-menu a', selectFormGroup);
+
+      });
+    })(jQuery);
+  }
+</script>

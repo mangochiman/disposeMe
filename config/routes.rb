@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.view_drug_menu  '/view_drug_menu',  :controller => 'pages', :action => 'view_drug_menu'
   map.delete_drug_menu  '/delete_drug_menu',  :controller => 'pages', :action => 'delete_drug_menu'
   map.new_drug_menu  '/dashboard',  :controller => 'pages', :action => 'dashboard'
+  map.settings_menu  '/settings_menu',  :controller => 'pages', :action => 'settings_menu'
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

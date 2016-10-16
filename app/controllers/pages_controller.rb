@@ -18,4 +18,12 @@ class PagesController < ApplicationController
     @small_font = "Add New Record"
     @page_info = "New Entry"
   end
+
+  def settings_menu
+    @h_one_header = "Settings"
+    @small_font = "Emails & Reminder Period"
+    @page_info = "Email settings"
+    @available_emails = Setting.find_all_by_key('email')
+  end
+  
 end
