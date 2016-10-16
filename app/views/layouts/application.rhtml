@@ -77,6 +77,8 @@
                   </li>
                   <li><a href="/settings_menu"><i class="icon-gear"></i> Settings </a>
                   </li>
+                  <li><a href="#" onmousedown="confirmEmailDelivery();"><i class="icon-gear"></i> Send E-mails </a>
+                  </li>
                   <li class="divider"></li>
                   <li><a href="/logout"><i class="icon-signout"></i> Logout </a>
                   </li>
@@ -134,6 +136,34 @@
     </div>
     <!-- ./wrapper -->
 
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="sendEmailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Confirm Action</h4>
+          </div>
+          <div class="modal-body">
+            This will send an email regarding expiring drugs to the following email addresses <b><i><%= available_email_addresses %></i></b>. <br /> The process is not <b>irreversible</b>. Are you sure?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">No, Am Not Sure</button>
+            <button onclick="sendEmails();" type="button" class="btn btn-primary">Yes, Am Sure</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+
+
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -172,6 +202,26 @@
     <!--<script src="/dist/js/demo.js"></script>-->
     <script type="text/javascript">
       $('#datepicker').datepicker();
+
+      function confirmEmailDelivery(){
+        jQuery('#sendEmailModal').modal('show');
+      }
+
+      function deleteFaculty(){
+        //window.location = '/admin/delete_faculty?faculty_id=' + facultyID;
+      }
+
+      function sendEmails(){
+        jQuery.ajax({
+          type: "POST",
+          url: "/admin/send_emails",
+          data: "send_email=true",
+          success: function(){
+
+          }
+
+        });
+      }
     </script>
   </body>
 </html>

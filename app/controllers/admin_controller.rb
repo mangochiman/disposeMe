@@ -1,3 +1,4 @@
+require "rest_client"
 class AdminController < ApplicationController
   def create_new_drug
     drug = Drug.new
@@ -24,6 +25,20 @@ class AdminController < ApplicationController
     setting = Setting.find(settings_id)
     setting.delete
     redirect_to("/settings_menu") and return
+  end
+
+  def send_emails
+    email_addresses = Setting.find_all_by_key('email').collect{|e|e.value}
+    data = {}
+    drugs_data = Drug.expiring_drugs
+    expiring_drugs = drugs_data[0]
+    names = drugs_data[1]
+    data["drugs"] = expiring_drugs
+    data["emails"] = email_addresses
+    data["names"] = names
+
+    uri = "http://192.168.43.203:3000/send_mail"
+    output = RestClient.post(uri, data)
   end
 
 end
