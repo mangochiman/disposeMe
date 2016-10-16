@@ -3,7 +3,7 @@
 colors_original = ["info", "warning", "success", "danger"]
 %>
 <% @drugs.each do |drug| %>
-  <% colors = colors_original if colors.blank?%>
+  <% colors = ["info", "warning", "success", "danger"] if colors.blank?%>
   <% color = colors.shift %>
   <div class="row">
     <div class="col-md-2">
