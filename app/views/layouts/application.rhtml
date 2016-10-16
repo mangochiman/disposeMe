@@ -212,16 +212,18 @@
       }
 
       function sendEmails(){
+        jQuery('#sendEmailModal').modal('hide');
         jQuery.ajax({
           type: "POST",
           url: "/admin/send_emails",
           data: "send_email=true",
-          success: function(){
-
+          success: function(result){
+            console.log(result)
           }
 
         });
       }
+      
     </script>
   </body>
 </html>
